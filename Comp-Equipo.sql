@@ -5,3 +5,4 @@ CREATE TABLE comp_equipo (
     FOREIGN KEY (ID_Competicion) REFERENCES competiciones(ID),
     FOREIGN KEY (ID_Equipo) REFERENCES equipo(ID)
 );
+

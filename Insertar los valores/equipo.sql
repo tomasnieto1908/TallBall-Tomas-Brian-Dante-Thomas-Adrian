@@ -28,3 +28,22 @@ VALUES
 ('Defensa y Justicia', 'El Halcón', 'Estadio Norberto Tomaghello'),
 ('Independiente Rivadavia', 'La Lepra Mendocina', 'Estadio Bautista Gargantini'),
 ('Godoy Cruz', 'El Tomba', 'Estadio Feliciano Gambarte');
+
+
+-- SELECT --
+
+SELECT * FROM equipo WHERE Nombre_Equipo = "River Plate" 
+
+-- INSERT --
+
+INSERT INTO equipo (Nombre_Equipo)
+VALUES ("Colon");
+
+-- UPDATE --
+
+UPDATE equipo SET Nombre_Equipo = "Colado" WHERE Nombre_Equipo = "Colon"
+
+-- DELETE --
+
+DELETE FROM equipo
+WHERE Nombre_Equipo = "Colado"

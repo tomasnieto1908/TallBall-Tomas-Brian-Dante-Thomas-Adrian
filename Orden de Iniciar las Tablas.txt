@@ -1,0 +1,9 @@
+Este es el orden para ejecutar los comandos 
+y las tablas no tengan algun defecto a la hora de crearlas
+
+1- equipo
+2- competiciones
+3- equipo-competiciones
+4- jugadores    
+5- partidos
+6- resultado

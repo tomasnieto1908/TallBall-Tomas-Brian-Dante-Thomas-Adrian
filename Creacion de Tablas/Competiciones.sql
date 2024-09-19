@@ -1,0 +1,4 @@
+CREATE TABLE competiciones (
+    ID INT PRIMARY KEY AUTO_INCREMENT, 
+    Nombre VARCHAR(50)  
+);

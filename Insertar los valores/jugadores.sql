@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE TABLE jugadores (
     ID INT PRIMARY KEY AUTO_INCREMENT,
     Cantidad_de_Goles INT,
@@ -9,6 +10,10 @@ CREATE TABLE jugadores (
 
 --River--
 INSERT INTO jugadores (Cantidad_de_Goles, Cantidad_de_Asistencias, ID_Equipo, Nombre_Jugador)
+=======
+--River--
+INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
+>>>>>>> 329f8593292e1106d6262d99f6733095a94ddc40
 VALUES
 (17, 5, 1, 'Lucas Beltrán'),
 (14, 3, 1, 'Pablo Solari'),
@@ -35,7 +40,11 @@ VALUES
 
 --Boca--
 
+<<<<<<< HEAD
 INSERT INTO jugadores (Cantidad_de_Goles, Cantidad_de_Asistencias, ID_Equipo, Nombre_Jugador)
+=======
+INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
+>>>>>>> 329f8593292e1106d6262d99f6733095a94ddc40
 VALUES
 (12, 4, 2, 'Darío Benedetto'),
 (9, 6, 2, 'Luis Vázquez'),
@@ -65,8 +74,14 @@ VALUES
 (0, 0, 2, 'Miguel Merentiel');
 
 --Independiente--
+<<<<<<< HEAD
 INSERT INTO jugadores (Cantidad_de_Goles, Cantidad_de_Asistencias, ID_Equipo, Nombre_Jugador)
 VALUES
+=======
+INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
+VALUES
+-- Jugadores principales
+>>>>>>> 329f8593292e1106d6262d99f6733095a94ddc40
 (8, 4, 3, 'Martín Cauteruccio'),
 (5, 2, 3, 'Matías Giménez Rojas'),
 (4, 3, 3, 'Rodrigo Márquez'),
@@ -91,7 +106,11 @@ VALUES
 (0, 0, 3, 'Lucas Rodríguez');
 
 --Racing--
+<<<<<<< HEAD
 INSERT INTO jugadores (Cantidad_de_Goles, Cantidad_de_Asistencias, ID_Equipo, Nombre_Jugador)
+=======
+INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
+>>>>>>> 329f8593292e1106d6262d99f6733095a94ddc40
 VALUES
 (15, 4, 4, 'Matías Rojas'),
 (10, 8, 4, 'Maximiliano Romero'),
@@ -119,6 +138,7 @@ VALUES
 (0, 0, 4, 'Fernando Prado');
 
 
+<<<<<<< HEAD
 -- San Lorenzo 2023 --
 INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
 VALUES
@@ -740,3 +760,32 @@ VALUES
 (0, 0, 25, 'Sebastián Lomónaco'),
 (0, 0, 25, 'Facundo González'),
 (0, 0, 25, 'Ramon Ferreyra');
+=======
+--San Lorenzo--
+INSERT INTO Jugadores (Cantidad_Goles, Cantidad_Asistencias, ID_Equipo, Nombre_Jugador)
+VALUES
+(15, 4, 5, 'Matías Rojas'),
+(10, 8, 5, 'Maximiliano Romero'),
+(8, 6, 5, 'Gabriel Hauche'),
+(7, 10, 5, 'Johan Carbonero'),
+(6, 3, 5, 'Jonathan Gómez'),
+(5, 4, 5, 'Aníbal Moreno'),
+(4, 7, 5, 'Nicolás Oroz'),
+(3, 2, 5, 'Emiliano Vecchio'),
+(3, 3, 5, 'Tomás Chancalay'),
+(2, 1, 5, 'Gonzalo Piovi'),
+(2, 3, 5, 'Leonardo Sigali'),
+(1, 4, 5, 'Iván Pillud'),
+(1, 2, 5, 'Facundo Mura'),
+(1, 0, 5, 'Paolo Guerrero'),
+(0, 0, 5, 'Gabriel Arias'), 
+(0, 0, 5, 'Matías Tagliamonte'), 
+(2, 1, 5, 'Edwin Cardona'),
+(1, 2, 5, 'Juan Ignacio Nardoni'),
+(1, 0, 5, 'Agustín Ojeda'),
+(1, 0, 5, 'Nicolás Reniero'),
+(0, 0, 5, 'Emiliano Insúa'),
+(0, 0, 5, 'Eugenio Mena'),
+(0, 0, 5, 'Lucas Orban'),
+(0, 0, 5, 'Fernando Prado');
+>>>>>>> 329f8593292e1106d6262d99f6733095a94ddc40

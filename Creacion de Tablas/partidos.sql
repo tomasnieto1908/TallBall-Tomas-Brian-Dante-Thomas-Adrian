@@ -2,7 +2,7 @@ CREATE TABLE partidos (
    ID INT PRIMARY KEY AUTO_INCREMENT,                        
    Local INT,                               
    Visitante INT,                             
-   Fecha INT,                                                            
+   Fecha DATE,                                                            
    ID_Competicion INT,                        
    Goles_Local INT,                           
    Goles_Visitante INT,                      

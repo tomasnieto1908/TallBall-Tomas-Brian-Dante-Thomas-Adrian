@@ -7,3 +7,4 @@ y las tablas no tengan algun defecto a la hora de crearlas
 4- jugadores    
 5- partidos
 6- resultado
+7- estadisticas

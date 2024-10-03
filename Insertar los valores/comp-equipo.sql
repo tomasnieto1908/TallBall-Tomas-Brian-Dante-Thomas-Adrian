@@ -2,6 +2,7 @@
 
 INSERT INTO comp_equipo (ID_Equipo, ID_Competicion)
 VALUES
+-- Copa de la liga
 	(1, 1),
     (2, 1),
     (3, 1),
@@ -27,10 +28,8 @@ VALUES
     (23, 1),
     (24, 1),
     (25, 1),
-    (26, 1),
-    (27, 1),
-    (28, 1),
     
+-- Liga profesional
     (1, 2),
     (2, 2),
     (3, 2),
@@ -55,36 +54,26 @@ VALUES
     (22, 2),
     (23, 2),
     (24, 2),
-    (25, 2),
-    (26, 2),
-    (27, 2),
-    (28, 2)
-    
-    (1, 3),
-    (2, 3),
-    (3, 3),
-    (4, 3),
-    (5, 3),
-    (6, 3),
-    (7, 3),
-    (8, 3),
-    (9, 3),
-    (10, 3),
-    (11, 3),
-    (12, 3),
-    (13, 3),
-    (14, 3),
-    (15, 3),
-    (16, 3),
-    (17, 3),
-    (18, 3),
-    (19, 3),
-    (20, 3),
-    (21, 3),
-    (22, 3),
-    (23, 3),
-    (24, 3),
-    (25, 3),
-    (26, 3),
-    (27, 3),
-    (28, 3);
+    (25, 2);
+
+-- Select 
+
+SELECT ID_Equipo FROM comp_equipo WHERE ID = 1;
+
+
+-- Update
+
+UPDATE comp_equipo SET ID_Equipo = 20 
+WHERE ID = 6;
+
+
+-- Delete
+
+DELETE FROM comp_equipo 
+WHERE ID = 6;
+
+
+-- New Insert
+
+INSERT INTO comp_equipo (ID, ID_Equipo, ID_Competicion) 
+VALUES (6, 6, 1);

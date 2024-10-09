@@ -12,7 +12,7 @@ conexion = mysql.connector.connect(
 cursor = conexion.cursor()
 
 # Ejecutar una consulta SQL
-cursor.execute("SELECT * FROM equipo")
+cursor.execute("SELECT * FROM jugadores")
 
 # Obtener los resultados
 resultados = cursor.fetchall()

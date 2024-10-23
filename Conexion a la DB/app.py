@@ -1,13 +1,11 @@
-<<<<<<< HEAD
 from flask import Flask, request, jsonify
-=======
+
 from flask import Flask, jsonify
->>>>>>> d38b7453644085a8036488593195cd6316961973
+
 import mysql.connector
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
 # Función para conectar a la base de datos MySQL
 def conectar_bd():
     return mysql.connector.connect(
@@ -18,7 +16,7 @@ def conectar_bd():
     )
 
 # Ruta que acepta solicitudes POST
-@app.route('/equipo', methods=['POST'])
+@app.route('/equipo', methods=['GET'])
 def obtener_datos():
     try:
         # Obtener el JSON enviado en la solicitud
@@ -52,19 +50,10 @@ def obtener_datos():
         # Manejo de otros errores
         return jsonify({"error": str(e)}), 500
 
-if __name__ == "__main__":
-=======
-# Configuración de la conexión a la base de datos
-db_config = {
-    'host': '10.9.120.5',
-    'user': 'tallball',
-    'password': 'tallball111',
-    'database': 'tallball'
-}
 
 @app.route('/jugadores', methods=['GET'])
 def obtener_jugadores_con_equipo():
-    conexion = mysql.connector.connect(**db_config)
+    conexion = conectar_bd()
     cursor = conexion.cursor()
     
     # Consulta para obtener los jugadores y el nombre del equipo según el ID de equipo
@@ -87,6 +76,91 @@ def obtener_jugadores_con_equipo():
     
     return jsonify(detalle_jugadores)
 
+@app.route('/equipo', methods=['POST',])
+def agregarEquipo():
+    nombre = request.json["Nombre_Equipo"]
+    apodo = request.json["Apodo_Equipo"]
+    cancha = request.json["Estadio_Equipo"]
+
+    db = conectar_bd()
+    cursor = db.cursor()
+    consulta = """ INSERT INTO `equipo` (`Nombre_Equipo`, `Apodo_Equipo`, `Estadio_Equipo`) VALUES (%s,%s,%s)  """
+
+    cursor.execute(consulta, (nombre,apodo,cancha,))
+    db.commit()
+    db.close()
+    return {"nombre" : nombre, "apodo" : apodo,"cancha" : cancha}    
+
+
+
+@app.route('/equipo/<int:id>', methods=["DELETE"])
+def borrarEquipo(id):
+
+
+    db = conectar_bd()
+    cursor = db.cursor()
+    consulta = """ DELETE FROM equipo WHERE ID =   %s  """
+
+    cursor.execute(consulta, (id,))
+    db.commit()
+    db.close()
+    return {"id borrado": id}   
+
+
+app.route('/competiciones', methods=['POST',])
+def agregarCompetencia():
+   nombre = request.json["Nombre"]
+
+   db = conectar_bd()
+   cursor = db.cursor()
+   consulta = """ INSERT INTO competiciones (Nombre) VALUES  (%s) """
+
+
+   cursor.execute(consulta,(nombre,))
+   db.commit()
+   db.close()
+   return{"nombre":nombre}
+
+
+
+@app.route('/jugadores', methods=['POST',])
+def agregarjugador():
+  nombre = request.json["Nombre_Jugador"]
+  IDequipo = request.json["ID_Equipo"]
+  db = conectar_bd()
+  cursor = db.cursor()
+  consulta = """ INSERT INTO `jugadores` (`Nombre_Jugador`, `ID_Equipo`) VALUES(%s,%s)  """
+
+  cursor.execute(consulta, (nombre,IDequipo))
+  db.commit()
+  db.close()
+  return {"nombre" : nombre, "IDequipo" : IDequipo} 
+
+@app.route('/competiciones/<int:id>', methods=["DELETE"])
+def borrarCompeticiones(id):
+
+  db = conectar_bd()
+  cursor = db.cursor()
+  consulta = """ DELETE FROM competiciones WHERE ID =   %s  """
+
+  cursor.execute(consulta, (id,))
+  db.commit()
+  db.close()  
+  return {"id borrado": id}
+
+
+@app.route('/jugadores/<int:id>', methods=["DELETE"])
+def borrarjugadores(id):
+
+  db = conectar_bd()
+  cursor = db.cursor()
+  consulta = """ DELETE FROM jugadores WHERE ID =   %s  """
+
+  cursor.execute(consulta, (id,))
+  db.commit()
+  db.close()  
+  return {"id borrado": id}
+
+
 if __name__ == '__main__':
->>>>>>> d38b7453644085a8036488593195cd6316961973
     app.run(debug=True)

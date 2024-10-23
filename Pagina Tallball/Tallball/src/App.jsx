@@ -141,7 +141,11 @@ function ScheduleTable() {
     <div>
       <h1 className="titulo">TALLBALL</h1>
       <div className="table-container">
-        <div className="table-title ">LIGA PROFESIONAL</div>
+        <div id="liga-profesional">
+          <h2>Liga Profesional</h2>
+          <table>{/* Tu tabla de partidos */}</table>
+        </div>
+
         <table className="table-schedule">
           <thead>
             <tr>

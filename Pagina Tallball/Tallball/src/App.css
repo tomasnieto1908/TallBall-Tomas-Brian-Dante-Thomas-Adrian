@@ -79,3 +79,17 @@ button:hover {
 .titulo {
   font-family: "Danfo";
 }
+.btn-liga {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.btn-liga:hover {
+  background-color: #218838;
+}

@@ -1,22 +1,21 @@
 /* Estilos generales */
 body {
   font-family: Arial, sans-serif;
-  background-color: #222222;
+  background-image: url(https://imgs.search.brave.com/PtFOkV8puLiB77tcv6mJNzkcBcZhT2yclzQ0B8r-0no/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDYy/OTY2NjQzL2VzL2Zv/dG8vdGV4dHVyYS1k/ZS1mb25kby1jb24t/YyVDMyVBOXNwZWQt/cyVDMyVBMWJhbmFz/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1VbVVJeTZDbWNl/dHR5TFBQbUd3T3lO/RFhNaVdvbGpUcVlY/VGRiNnBpN0NFPQ);
   text-align: center;
 }
 
 /* Contenedor de las tablas */
 .table-container {
-  margin: 20px auto; /* Esto centrará las tablas */
-  width: 80%; /* Ajusta el tamaño según tus necesidades */
-  max-width: 1000px; /* Limita el ancho máximo de las tablas */
-  background-color: rgb(92, 92, 92);
+  margin: 20px auto;
+  width: 80%;
+  max-width: 1000px;
+  background-color: rgb(4, 59, 9);
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   display: flex;
   align-items: center;
-  
+  flex-direction: column;
 }
 
 /* Título de la tabla */
@@ -25,7 +24,6 @@ body {
   font-weight: bold;
   color: #ffffff;
   margin-bottom: 10px;
-padding-top: 120px;
 }
 
 /* Estilos de la tabla */
@@ -33,16 +31,18 @@ padding-top: 120px;
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  flex-direction: column;
 }
 
-.table-schedule th, .table-schedule td {
+.table-schedule th,
+.table-schedule td {
   padding: 10px;
   border: 1px solid #ccc;
   text-align: left;
 }
 
 .table-schedule th {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -55,6 +55,7 @@ padding-top: 120px;
   height: 24px;
   margin-right: 8px;
   vertical-align: middle;
+  justify-content: center;
 }
 
 /* Estilo del botón */
@@ -73,4 +74,8 @@ button {
 
 button:hover {
   background-color: darkred;
+}
+
+.titulo {
+  font-family: "Danfo";
 }

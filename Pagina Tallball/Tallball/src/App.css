@@ -93,3 +93,41 @@ button:hover {
 .btn-liga:hover {
   background-color: #218838;
 }
+
+
+.search-bar {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid rgb(4, 109, 11);
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: rgb(4, 59, 9);
+  color: hsl(0, 0%, 100%);
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.navbar button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border: none;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.navbar button.active {
+  background-color: hsl(123, 66%, 13%); /* Color diferente para botón activo */
+}
+
+.navbar button:hover {
+  background-color: #388e3c;
+}

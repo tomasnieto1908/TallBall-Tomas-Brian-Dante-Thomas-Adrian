@@ -1,17 +1,18 @@
-import React from "react";
+// Navbar.js
+import React from 'react';
 
-function Navbar({}) {
-  return (
-    <nav className="navbar">
-      <ul>
-        <li>Tabla</li>
-        <li>Partidos</li>
-        <li>equipos</li>
-        <li>Estadisticas</li>
-        <li>Sobre Nosotros</li>
-      </ul>
-    </nav>
-  );
-}
+const Navbar = () => {
+    return (
+        <nav id="main-navbar">
+            <ul>
+                <li><a href="#home">Tabla</a></li>
+                <li><a href="#about">Equipos</a></li>
+                <li><a href="#projects">partidos</a></li>
+                <li><a href="#contact">Estadisticas</a></li>
+                <li><a href="#contact">sobre nosotros</a></li>
+            </ul>
+        </nav>
+    );
+};
 
 export default Navbar;

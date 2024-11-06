@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
-
+from flask_cors import CORS  # Importa CORS
 from flask import Flask, jsonify
 
 import mysql.connector
 
 app = Flask(__name__)
+CORS(app)  
+
+
 
 # Función para conectar a la base de datos MySQL
 def conectar_bd():
@@ -53,38 +56,44 @@ def obtener_datos():
 
 @app.route('/partido', methods=['GET'])
 def obtener_partidos():
+
     conexion = conectar_bd()
     cursor = conexion.cursor(dictionary=True)
     
     # Consulta para obtener los jugadores y el nombre del equipo según el ID de equipo
-    consulta = """
-SELECT 
-    p.ID, 
-    el.ID AS ID_Local, 
-    el.Nombre_Equipo AS Equipo_Local, 
-    el.logo_url AS Logo_Local,
+    if "torneo" in request.args:
+        consulta = """
+    SELECT p.ID, 
+    el.ID AS ID_Local, el.Nombre_Equipo AS Equipo_Local, el.logo_url AS Logo_Local, 
     ev.ID AS ID_Visitante, 
     ev.Nombre_Equipo AS Equipo_Visitante,
-    ev.logo_url AS Logo_Visitante,
-    p.Goles_Local,
-    p.Goles_Visitante,
-    p.tiempo
-FROM 
-    partidos p
-JOIN 
-    equipo el ON p.ID = el.ID
-JOIN 
-    equipo ev ON p.ID = ev.ID;
+    ev.logo_url AS Logo_Visitante, p.Goles_Local, p.Goles_Visitante,p.tiempo
+    FROM partidos p INNER JOIN equipo el ON el.ID = p.Local 
+    INNER JOIN equipo ev ON ev.ID = p.Visitante 
+    WHERE p.ID_competicion = %s
+    LIMIT 0, 25;
+"""
+        cursor.execute(consulta, (request.args['torneo'],))
+    else:
+        consulta = """
+    SELECT p.ID, 
+    el.ID AS ID_Local, el.Nombre_Equipo AS Equipo_Local, el.logo_url AS Logo_Local, 
+    ev.ID AS ID_Visitante, 
+    ev.Nombre_Equipo AS Equipo_Visitante,
+    ev.logo_url AS Logo_Visitante, p.Goles_Local, p.Goles_Visitante,p.tiempo
+    FROM partidos p INNER JOIN equipo el ON el.ID = p.Local 
+    INNER JOIN equipo ev ON ev.ID = p.Visitante LIMIT 0, 25;
 
 
-    """
-    cursor.execute(consulta)
+        """
+        cursor.execute(consulta)
+
     resultados = cursor.fetchall()
     obtener_partidos = [
         {"time": str(fila['tiempo']), 
          "local_team": {"Nombre_Equipo": fila['Equipo_Local'], "logo": fila['Logo_Local']},
          "visitor_team": {"Nombre_Equipo": fila['Equipo_Visitante'], "logo": fila['Logo_Visitante']},
-         "Goles_Local": fila["Goles_Local"],"Goles_Visitante": fila["Goles_Visitante"],              
+         "localGoals": fila["Goles_Local"],"visitorGoals": fila["Goles_Visitante"],              
         }
         for fila in resultados
     ]
@@ -92,6 +101,44 @@ JOIN
     conexion.close()
     
     return jsonify(obtener_partidos)
+
+@app.route('/puntos', methods=['GET'])
+def obtener_puntos():
+    conexion = conectar_bd()
+    cursor = conexion.cursor(dictionary=True)
+    
+    # Consulta para obtener los jugadores y el nombre del equipo según el ID de equipo
+
+    if "torneo" in request.args:
+        consulta = """
+        SELECT Nombre_Equipo, (SELECT (SELECT COUNT(*)*3 AS puntos from partidos
+    WHERE (Local = e.ID AND Goles_Local > Goles_Visitante) or (Visitante = e.ID AND Goles_Local < Goles_Visitante )) + (SELECT COUNT(*) AS puntos from partidos
+    WHERE (Local = e.ID or Visitante = e.ID) AND Goles_Local = Goles_Visitante) as puntos) AS puntos 
+    FROM equipo e ORDER BY puntos DESC;  WHERE p.ID_competicion = %s
+    """
+        cursor.execute(consulta, (request.args['torneo'],))
+
+    else:  
+        consulta = """
+    SELECT Nombre_Equipo, (SELECT (SELECT COUNT(*)*3 AS puntos from partidos
+    WHERE (Local = e.ID AND Goles_Local > Goles_Visitante) or (Visitante = e.ID AND Goles_Local < Goles_Visitante )) + (SELECT COUNT(*) AS puntos from partidos
+    WHERE (Local = e.ID or Visitante = e.ID) AND Goles_Local = Goles_Visitante) as puntos) AS puntos 
+    FROM equipo e ORDER BY puntos DESC; 
+    """
+    cursor.execute(consulta)
+    resultados = cursor.fetchall()
+    obtener_puntos = [
+        {"puntos": str(fila['puntos']) ,
+         "nombre_equipo": fila["Nombre_Equipo"]           
+        }
+        for fila in resultados
+    ]
+    cursor.close()
+    conexion.close()
+    
+    return jsonify(obtener_puntos)
+
+
 
 @app.route('/jugadores', methods=['GET'])
 def obtener_jugadores_con_equipo():
@@ -162,6 +209,7 @@ def agregarCompetencia():
    db.commit()
    db.close()
    return{"nombre":nombre}
+
 
 
 

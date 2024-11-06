@@ -51,6 +51,48 @@ def obtener_datos():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/partido', methods=['GET'])
+def obtener_partidos():
+    conexion = conectar_bd()
+    cursor = conexion.cursor(dictionary=True)
+    
+    # Consulta para obtener los jugadores y el nombre del equipo según el ID de equipo
+    consulta = """
+SELECT 
+    p.ID, 
+    el.ID AS ID_Local, 
+    el.Nombre_Equipo AS Equipo_Local, 
+    el.logo_url AS Logo_Local,
+    ev.ID AS ID_Visitante, 
+    ev.Nombre_Equipo AS Equipo_Visitante,
+    ev.logo_url AS Logo_Visitante,
+    p.Goles_Local,
+    p.Goles_Visitante,
+    p.tiempo
+FROM 
+    partidos p
+JOIN 
+    equipo el ON p.ID = el.ID
+JOIN 
+    equipo ev ON p.ID = ev.ID;
+
+
+    """
+    cursor.execute(consulta)
+    resultados = cursor.fetchall()
+    obtener_partidos = [
+        {"time": str(fila['tiempo']), 
+         "local_team": {"Nombre_Equipo": fila['Equipo_Local'], "logo": fila['Logo_Local']},
+         "visitor_team": {"Nombre_Equipo": fila['Equipo_Visitante'], "logo": fila['Logo_Visitante']},
+         "Goles_Local": fila["Goles_Local"],"Goles_Visitante": fila["Goles_Visitante"],              
+        }
+        for fila in resultados
+    ]
+    cursor.close()
+    conexion.close()
+    
+    return jsonify(obtener_partidos)
+
 @app.route('/jugadores', methods=['GET'])
 def obtener_jugadores_con_equipo():
     conexion = conectar_bd()

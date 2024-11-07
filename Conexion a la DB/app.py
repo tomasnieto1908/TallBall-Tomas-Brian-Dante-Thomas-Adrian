@@ -107,36 +107,80 @@ def obtener_puntos():
     conexion = conectar_bd()
     cursor = conexion.cursor(dictionary=True)
     
-    # Consulta para obtener los jugadores y el nombre del equipo según el ID de equipo
+    # Obtener el parámetro 'torneo' de la URL
+    torneo = request.args.get('torneo')
 
-    if "torneo" in request.args:
+    # Consulta SQL para obtener puntos
+    if torneo:
         consulta = """
-        SELECT Nombre_Equipo, (SELECT (SELECT COUNT(*)*3 AS puntos from partidos
-    WHERE (Local = e.ID AND Goles_Local > Goles_Visitante) or (Visitante = e.ID AND Goles_Local < Goles_Visitante )) + (SELECT COUNT(*) AS puntos from partidos
-    WHERE (Local = e.ID or Visitante = e.ID) AND Goles_Local = Goles_Visitante) as puntos) AS puntos 
-    FROM equipo e ORDER BY puntos DESC;  WHERE p.ID_competicion = %s
-    """
-        cursor.execute(consulta, (request.args['torneo'],))
+  SELECT 
+    e.Nombre_Equipo, 
+    e.logo_url AS Logo_Equipo,  
+    SUM(CASE 
+            WHEN (p.Local = e.ID AND p.Goles_Local > p.Goles_Visitante) 
+                OR (p.Visitante = e.ID AND p.Goles_Local < p.Goles_Visitante) 
+            THEN 3
+            WHEN p.Goles_Local = p.Goles_Visitante 
+            THEN 1
+            ELSE 0
+        END) AS puntos
+FROM 
+    equipo e
+JOIN 
+    partidos p ON (p.Local = e.ID OR p.Visitante = e.ID)
+WHERE 
+    p.ID_competicion = %s 
+GROUP BY 
+    e.Nombre_Equipo, e.logo_url  -- Solo agrupar por Nombre_Equipo y Logo_Equipo
+ORDER BY 
+    puntos DESC;
 
-    else:  
+
+        """
+        cursor.execute(consulta, (torneo,))
+    else:
         consulta = """
-    SELECT Nombre_Equipo, (SELECT (SELECT COUNT(*)*3 AS puntos from partidos
-    WHERE (Local = e.ID AND Goles_Local > Goles_Visitante) or (Visitante = e.ID AND Goles_Local < Goles_Visitante )) + (SELECT COUNT(*) AS puntos from partidos
-    WHERE (Local = e.ID or Visitante = e.ID) AND Goles_Local = Goles_Visitante) as puntos) AS puntos 
-    FROM equipo e ORDER BY puntos DESC; 
-    """
-    cursor.execute(consulta)
+ SELECT 
+    e.Nombre_Equipo, 
+    e.logo_url AS Logo_Equipo,  -- Mostrar logo
+    SUM(CASE 
+            WHEN (p.Local = e.ID AND p.Goles_Local > p.Goles_Visitante) 
+                OR (p.Visitante = e.ID AND p.Goles_Local < p.Goles_Visitante) 
+            THEN 3
+            WHEN p.Goles_Local = p.Goles_Visitante 
+            THEN 1
+            ELSE 0
+        END) AS puntos
+FROM 
+    equipo e
+JOIN 
+    partidos p ON (p.Local = e.ID OR p.Visitante = e.ID)
+GROUP BY 
+    e.Nombre_Equipo, e.logo_url  -- Agregado logo_url al GROUP BY
+ORDER BY 
+    puntos DESC;
+
+
+        """
+        cursor.execute(consulta)
+
+    # Recuperar los resultados de la consulta
     resultados = cursor.fetchall()
+    
+    # Formatear los resultados para la respuesta JSON
     obtener_puntos = [
-        {"puntos": str(fila['puntos']) ,
-         "nombre_equipo": fila["Nombre_Equipo"]           
+        {"puntos": fila['puntos'],
+         "nombre_equipo": fila["Nombre_Equipo"],"logo": fila['Logo_Equipo']
         }
         for fila in resultados
     ]
+    
+    # Cerrar la conexión
     cursor.close()
     conexion.close()
     
     return jsonify(obtener_puntos)
+
 
 
 

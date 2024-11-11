@@ -251,6 +251,13 @@ function ScheduleTable() {
     .sort(([, a], [, b]) => b.points - a.points)
     .filter(([team]) => team.toLowerCase().includes(searchTerm.toLowerCase()));
 
+useEffect(()=>{
+   console.log("puntos1",puntos1)
+   console.log("puntos 2",puntos2)
+   console.log("puntos",puntos)
+},[puntos1,puntos2,puntos])
+
+
   return (
     <div>
       <h1 className="titulo">TALLBALL</h1>
@@ -301,8 +308,9 @@ function ScheduleTable() {
               <tbody>
                 {puntos.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
+                    
                   </tr>
                 ))}
               </tbody>
@@ -322,7 +330,7 @@ function ScheduleTable() {
               <tbody>
                 {puntos2.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
                   </tr>
                 ))}
@@ -342,8 +350,9 @@ function ScheduleTable() {
               <tbody>
                 {puntos1.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
+                      
                   </tr>
                 ))}
               </tbody>
@@ -533,7 +542,7 @@ function ScheduleTable() {
               <tbody>
                 {puntos.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
                   </tr>
                 ))}
@@ -553,7 +562,7 @@ function ScheduleTable() {
               <tbody>
                 {puntos2.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
                   </tr>
                 ))}
@@ -573,7 +582,7 @@ function ScheduleTable() {
               <tbody>
                 {puntos1.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.nombre_equipo}</td>
+                    <td className="team-column"><img src={data.logo}/>{data.nombre_equipo}</td>
                     <td>{data.puntos}</td>
                   </tr>
                 ))}

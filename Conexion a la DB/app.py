@@ -8,7 +8,6 @@ app = Flask(__name__)
 CORS(app)  
 
 
-
 # Función para conectar a la base de datos MySQL
 def conectar_bd():
     return mysql.connector.connect(
@@ -17,6 +16,71 @@ def conectar_bd():
         password="tallball111",  # Cambia por tu contraseña de MySQL
         database="tallball"  # Cambia por el nombre de tu base de datos
     )
+
+
+@app.route("/partidos", methods=["POST"])
+def agregarPartido():
+    EquipoLocal = request.json["Local"]
+    EquipoVistante = request.json["Visitante"]
+    Fecha =  request.json["Fecha"]
+    id_competicion =  request.json["ID_Competicion"]
+    Goles_local =  request.json["Goles_Local"]
+    Goles_visitante =  request.json["Goles_Visitante"]
+    tiempo =  request.json["tiempo"]
+
+    db = conectar_bd()
+    cursor = db.cursor()
+    consulta = """ INSERT INTO `partidos` (`Local`, `Visitante`, `Fecha`,`ID_Competicion`, `Goles_Local`, `Goles_Visitante`, `tiempo`) VALUES (%s,%s,%s,%s,%s,%s,%s)  """
+
+    cursor.execute(consulta, (EquipoLocal,EquipoVistante,Fecha,id_competicion
+                              ,Goles_local,Goles_visitante,tiempo))
+    id = cursor.lastrowid
+    db.commit()
+    db.close()
+    return {"result" : "OK",
+            "id_creado": id}
+
+
+
+@app.route('/partidos/<int:id>', methods=["DELETE"])
+def borrarPartidos(id):
+
+  db = conectar_bd()
+  cursor = db.cursor()
+  consulta = """ DELETE FROM partidos WHERE ID =   %s  """
+
+  cursor.execute(consulta, (id,))
+  db.commit()
+  db.close()  
+  return {"result" : "OK",
+          "id borrado": id}
+
+
+@app.route("/partidos/<int:id>", methods=["PUT"])
+def modificarPartido(id):
+    EquipoLocal = request.json["Local"]
+    EquipoVistante = request.json["Visitante"]
+    Fecha =  request.json["Fecha"]
+    id_competicion =  request.json["ID_Competicion"]
+    Goles_local =  request.json["Goles_Local"]
+    Goles_visitante =  request.json["Goles_Visitante"]
+    tiempo =  request.json["tiempo"]
+
+    db = conectar_bd()
+    cursor = db.cursor()
+    consulta = """  UPDATE `partidos` SET `Local`= %s, `Visitante`= %s, `Fecha`= %s,`ID_Competicion`= %s,
+                    `Goles_Local`= %s, `Goles_Visitante`= %s, `tiempo`= %s
+                    WHERE ID =   %s """
+
+    cursor.execute(consulta, (EquipoLocal,EquipoVistante,Fecha,id_competicion
+                              ,Goles_local,Goles_visitante,tiempo,id))
+    db.commit()
+    db.close()
+    return {"result" : "OK",
+            "id_mod": id}
+
+
+
 
 # Ruta que acepta solicitudes POST
 @app.route('/equipo', methods=['GET'])
@@ -240,6 +304,30 @@ def borrarEquipo(id):
     return {"id borrado": id}   
 
 
+@app.route('/equipo/<int:id>', methods=['PUT',])
+def modificarEquipo(id):
+    nombre = request.json["Nombre_Equipo"]
+    apodo = request.json["Apodo_Equipo"]
+    cancha = request.json["Estadio_Equipo"]
+    logo = request.json["logo_url"]
+
+    db = conectar_bd()
+    cursor = db.cursor()
+    consulta = """ UPDATE `equipo` SET `Nombre_Equipo`=%s, `Apodo_Equipo`=%s, 
+                `Estadio_Equipo`=%s,`logo_url`=%s
+            WHERE ID =   %s """
+
+    cursor.execute(consulta, (nombre,apodo,cancha,logo,id))
+    db.commit()
+    db.close()
+    return {"result" : "OK",
+            "id_mod": id }
+
+
+
+
+
+
 app.route('/competiciones', methods=['POST',])
 def agregarCompetencia():
    nombre = request.json["Nombre"]
@@ -253,6 +341,28 @@ def agregarCompetencia():
    db.commit()
    db.close()
    return{"nombre":nombre}
+
+
+@app.route('/competiciones/<int:id>', methods=['PUT',])
+def modificarCompeticion(id):
+   nombre = request.json["Nombre"]
+
+   db = conectar_bd()
+   cursor = db.cursor()
+   consulta = """ UPDATE competiciones set `Nombre` = %s
+    WHERE ID =   %s """
+         
+
+   cursor.execute(consulta,(nombre,id))
+   db.commit()
+   db.close()
+   return{"result" : "OK",
+            "id_mod": id }
+
+
+
+
+
 
 
 
@@ -269,19 +379,6 @@ def agregarjugador():
   db.commit()
   db.close()
   return {"nombre" : nombre, "IDequipo" : IDequipo} 
-
-@app.route('/competiciones/<int:id>', methods=["DELETE"])
-def borrarCompeticiones(id):
-
-  db = conectar_bd()
-  cursor = db.cursor()
-  consulta = """ DELETE FROM competiciones WHERE ID =   %s  """
-
-  cursor.execute(consulta, (id,))
-  db.commit()
-  db.close()  
-  return {"id borrado": id}
-
 
 @app.route('/jugadores/<int:id>', methods=["DELETE"])
 def borrarjugadores(id):
